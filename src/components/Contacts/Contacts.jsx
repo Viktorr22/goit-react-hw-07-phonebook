@@ -4,11 +4,13 @@ import {
   ContactMarkupItem,
   ContactMarkupButton,
 } from './Contact.styled';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { deleteContact } from 'redux/contactsOperations';
+import { selectIsLoading } from 'redux/selectors';
 
 export const ContactList = ({ onGetFilteredContact }) => {
   const dispatch = useDispatch();
+  const isLoading = useSelector(selectIsLoading);
 
   const onDeleteContact = id => {
     dispatch(deleteContact(id));
@@ -19,7 +21,10 @@ export const ContactList = ({ onGetFilteredContact }) => {
       {onGetFilteredContact().map(({ id, name, number }) => (
         <ContactMarkupItem key={id}>
           {name}: {number}
-          <ContactMarkupButton onClick={() => onDeleteContact(id)}>
+          <ContactMarkupButton
+            disabled={isLoading}
+            onClick={() => onDeleteContact(id)}
+          >
             Delete
           </ContactMarkupButton>
         </ContactMarkupItem>

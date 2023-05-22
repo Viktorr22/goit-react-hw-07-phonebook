@@ -1,13 +1,14 @@
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Form, Section, ContactList, Filter } from 'components';
-import { selectContacts, selectFilter } from 'redux/selectors';
+import { selectContacts, selectFilter, selectError } from 'redux/selectors';
 import { fetchContacts } from 'redux/contactsOperations';
 
 export function App() {
   const dispatch = useDispatch();
   const contacts = useSelector(selectContacts);
   const filter = useSelector(selectFilter);
+  const error = useSelector(selectError);
 
   useEffect(() => {
     dispatch(fetchContacts());
@@ -35,6 +36,7 @@ export function App() {
           <ContactList onGetFilteredContact={getFilteredContact} />
         </>
       )}
+      {error && <p>{error}</p>}
     </Section>
   );
 }

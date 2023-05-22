@@ -1,11 +1,12 @@
 import { FormBox } from './Form.styled';
 import { useSelector, useDispatch } from 'react-redux';
-import { selectContacts } from 'redux/selectors';
+import { selectContacts, selectIsLoading } from 'redux/selectors';
 import { addContact } from 'redux/contactsOperations';
 
 export const Form = () => {
   const dispatch = useDispatch();
   const contacts = useSelector(selectContacts);
+  const isLoading = useSelector(selectIsLoading);
 
   const handleSubmit = event => {
     event.preventDefault();
@@ -48,7 +49,9 @@ export const Form = () => {
           required
         />
       </label>
-      <button type="submit">Add contact</button>
+      <button type="submit" disabled={isLoading}>
+        Add contact
+      </button>
     </FormBox>
   );
 };
